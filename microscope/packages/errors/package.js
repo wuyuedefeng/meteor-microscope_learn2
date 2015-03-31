@@ -20,7 +20,7 @@ Package.onUse(function(api) {
 });
 
 Package.onTest(function(api) {
-  api.use('tinytest');
-  api.use('itrydo:errors');
-  api.addFiles('errors-tests.js');
+  api.use(['tinytest', 'test-helpers'], 'client');
+  api.use('itrydo:errors', 'client');
+  api.addFiles('errors-tests.js', 'client');
 });
