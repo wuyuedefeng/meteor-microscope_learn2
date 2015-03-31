@@ -1,13 +1,13 @@
-<template name="errors">
-    <div class="errors">
+<template name="itrydoErrors">
+    <div class="itrydo-errors">
         {{#each errors}}
-            {{> error}}
+            {{> itrydoError}}
         {{/each}}
     </div>
 </template>
 
-<template name="error">
-    <div class="alert alert-danger" role="alert">
+<template name="itrydoError">
+    <div class="itrydo-alert alert-danger alert" role="alert">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
         {{message}}
     </div>

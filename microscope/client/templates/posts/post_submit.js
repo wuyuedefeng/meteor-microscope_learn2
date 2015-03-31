@@ -27,11 +27,12 @@ Template.postSubmit.events({
         Meteor.call('postInsert', post, function(error, result) {
             // 显示错误信息并退出
             if (error)
-                return throwError(error.reason);
+                // display the error to the user
+                ItrydoErrors.throw(error.reason);
 
             // 显示结果，跳转页面
             if (result.postExists)
-                throwError('This link has already been posted');
+                ItrydoErrors.throw('This link has already been posted');
 
             Router.go('postPage', {_id: result._id});
         });
