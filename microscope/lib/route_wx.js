@@ -53,6 +53,8 @@ Meteor.startup(function () {
 
 		        remove_openID_to_group('op82Ot-3nzBI2u1jxwNWJ_ohSr0g','118');
 
+		        remove_openIDList_to_group(['op82Ot-3nzBI2u1jxwNWJ_ohSr0g'],'2');
+
 		    }
 		}
 
@@ -177,6 +179,29 @@ function remove_openID_to_group(openID, to_groupid){
             else{
             	if (result.statusCode === 200) {
 		        	console.log('移动用户分组 SUCCES!');
+            		console.log(result.content);		   
+		     	}
+            }
+          });
+}
+
+//批量移动用户分组
+function remove_openIDList_to_group(openid_list, to_groupid){
+	var http = 'https://api.weixin.qq.com/cgi-bin/groups/members/batchupdate?access_token=' + wxAccessToken;
+	HTTP.call("POST", http,
+          {
+          	data: {
+				"openid_list":openid_list,"to_groupid":to_groupid
+          	}
+      	  },
+          function (error, result) {
+            if (error) {
+              console.log('批量移动用户分组 FAILED!');
+              console.log(error);
+            }
+            else{
+            	if (result.statusCode === 200) {
+		        	console.log('批量移动用户分组 SUCCES!');
             		console.log(result.content);		   
 		     	}
             }
