@@ -49,6 +49,8 @@ Meteor.startup(function () {
 
 		        get_wx_group_with_openID('op82Ot-3nzBI2u1jxwNWJ_ohSr0g');
 
+		        modify_wx_group_name('118','未分组modify');
+
 		    }
 		}
 
@@ -127,6 +129,29 @@ function get_wx_group_with_openID(openID){
             else{
             	if (result.statusCode === 200) {
 		        	console.log('通过用户的OpenID查询其所在的GroupID SUCCES!');
+            		console.log(result.content);		   
+		     	}
+            }
+          });
+}
+
+//微信修改分组名称
+function modify_wx_group_name(group_id, modify_name){
+	var http = 'https://api.weixin.qq.com/cgi-bin/groups/update?access_token=' + wxAccessToken;
+	HTTP.call("POST", http,
+          {
+          	data: {
+          		"group":{"id":group_id,"name":modify_name}
+          	}
+      	  },
+          function (error, result) {
+            if (error) {
+              console.log('微信修改分组名称 FAILED!');
+              console.log(error);
+            }
+            else{
+            	if (result.statusCode === 200) {
+		        	console.log('微信修改分组名称 SUCCES!');
             		console.log(result.content);		   
 		     	}
             }
