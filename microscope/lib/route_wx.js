@@ -51,6 +51,8 @@ Meteor.startup(function () {
 
 		        modify_wx_group_name('118','未分组modify');
 
+		        remove_openID_to_group('op82Ot-3nzBI2u1jxwNWJ_ohSr0g','118');
+
 		    }
 		}
 
@@ -157,4 +159,28 @@ function modify_wx_group_name(group_id, modify_name){
             }
           });
 }
+
+//移动用户分组
+function remove_openID_to_group(openID, to_groupid){
+	var http = 'https://api.weixin.qq.com/cgi-bin/groups/members/update?access_token=' + wxAccessToken;
+	HTTP.call("POST", http,
+          {
+          	data: {
+				"openid": openID,"to_groupid": to_groupid
+          	}
+      	  },
+          function (error, result) {
+            if (error) {
+              console.log('移动用户分组 FAILED!');
+              console.log(error);
+            }
+            else{
+            	if (result.statusCode === 200) {
+		        	console.log('移动用户分组 SUCCES!');
+            		console.log(result.content);		   
+		     	}
+            }
+          });
+}
+
 
