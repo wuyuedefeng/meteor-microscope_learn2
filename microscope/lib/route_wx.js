@@ -45,6 +45,8 @@ Meteor.startup(function () {
 
 		        create_group('sensensen');
 
+		        get_wx_group_list();
+
 		    }
 		}
 
@@ -72,7 +74,7 @@ function create_group(name){
 	HTTP.call("POST", http,
           {
           	data: {
-          		"group":{"name":"test"}
+          		"group":{"name": name}
           	}
       	  },
           function (error, result) {
@@ -81,18 +83,28 @@ function create_group(name){
               console.log(error);
             }
             else{
-            	console.log('create group SUCCES!');
-            	console.log(result.content);
+            	if (result.statusCode === 200) {
+		        	console.log('create group SUCCES!');
+            		console.log(result.content);		   
+		     	}
             }
           });
 	
 }
-//查询所有分组
-
-
-//微信get请求
-// function wx_get_request(url,callback){
-// 	console.log(url);
-// 	Meteor.http.get(url, callback);
-// }
+//查询微信所有分组
+function get_wx_group_list(){
+	var http = 'https://api.weixin.qq.com/cgi-bin/groups/get?access_token=' + wxAccessToken;
+	console.log(http);
+	Meteor.http.get(http, function (error, result) {
+		if(error) {
+		    console.log('查询微信所有分组 FAILED!');
+		} else {
+		    console.log('查询微信所有分组 SUCCES');
+		    if (result.statusCode === 200) {
+		        console.log('Status code = 200!');
+		        console.log(result.content);		   
+		     }
+		}
+	});
+}
 
