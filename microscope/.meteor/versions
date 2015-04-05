@@ -8,6 +8,7 @@ blaze@2.1.0
 blaze-tools@1.0.3
 boilerplate-generator@1.0.3
 callback-hook@1.0.3
+cfs:http-methods@0.0.27
 check@1.0.5
 ddp@1.1.0
 deps@1.0.7
@@ -28,7 +29,8 @@ iron:location@1.0.7
 iron:middleware-stack@1.0.7
 iron:router@1.0.7
 iron:url@1.0.7
-wuyuedefeng:errors@0.0.1
+jparker:crypto-core@0.1.0
+jparker:crypto-sha1@0.1.0
 jquery@1.11.3_2
 json@1.0.3
 launch-screen@1.0.2
@@ -67,3 +69,4 @@ underscore@1.0.3
 url@1.0.4
 webapp@1.2.0
 webapp-hashing@1.0.3
+wuyuedefeng:errors@0.0.1
