@@ -47,6 +47,8 @@ Meteor.startup(function () {
 
 		        get_wx_group_list();
 
+		        get_wx_group_with_openID('op82Ot-3nzBI2u1jxwNWJ_ohSr0g');
+
 		    }
 		}
 
@@ -106,5 +108,28 @@ function get_wx_group_list(){
 		     }
 		}
 	});
+}
+
+//通过用户的OpenID查询其所在的GroupID
+function get_wx_group_with_openID(openID){
+	var http = 'https://api.weixin.qq.com/cgi-bin/groups/getid?access_token=' + wxAccessToken;
+	HTTP.call("POST", http,
+          {
+          	data: {
+          		"openid": openID
+          	}
+      	  },
+          function (error, result) {
+            if (error) {
+              console.log('通过用户的OpenID查询其所在的GroupID FAILED!');
+              console.log(error);
+            }
+            else{
+            	if (result.statusCode === 200) {
+		        	console.log('通过用户的OpenID查询其所在的GroupID SUCCES!');
+            		console.log(result.content);		   
+		     	}
+            }
+          });
 }
 
