@@ -55,6 +55,10 @@ Meteor.startup(function () {
 
 		        remove_openIDList_to_group(['op82Ot-3nzBI2u1jxwNWJ_ohSr0g'],'2');
 
+		        create_menu();
+
+		        get_menu();
+
 		    }
 		}
 
@@ -207,5 +211,76 @@ function remove_openIDList_to_group(openid_list, to_groupid){
             }
           });
 }
+
+//创建菜单目录
+function create_menu(){
+	var http = 'https://api.weixin.qq.com/cgi-bin/menu/create?access_token=' + wxAccessToken;
+	HTTP.call("POST", http,
+          {
+          	data: {
+				"button":[
+					{	
+					  "name":"美文特辑",
+					  'sub_button':[
+					  {
+					  	"type":"view",
+					  	"name":"情感",
+					  	"url":"http://itrydo.meteor.com"
+					  },
+					  {
+					  	"type":"view",
+					  	"name":"生活",
+					  	"url":'http://itrydo.meteor.com'
+					  }
+					  ]
+					},
+					{
+					   "name":"逗比特辑",
+					   "sub_button":[
+					   {	
+					       "type":"view",
+					       "name":"呵呵~咯咯~",
+					       "url":"http://www.baidu.com"
+					    },
+					    {
+					       "type":"view",
+					       "name":"趣味谜语",
+					       "url":"http://itrydo.meteor.com"
+					    }]
+					}]
+          	}
+      	  },
+          function (error, result) {
+            if (error) {
+              console.log('创建菜单目录 FAILED!');
+              console.log(error);
+            }
+            else{
+            	if (result.statusCode === 200) {
+		        	console.log('创建菜单目录 SUCCES!');
+            		console.log(result.content);		   
+		     	}
+            }
+          });
+}
+
+//查询菜单
+function get_menu(){
+	var http = 'https://api.weixin.qq.com/cgi-bin/menu/get?access_token=' + wxAccessToken;
+	console.log(http);
+	Meteor.http.get(http, function (error, result) {
+		if(error) {
+		    console.log('查询菜单 FAILED!');
+		} else {
+		    console.log('查询菜单 SUCCES');
+		    if (result.statusCode === 200) {
+		        console.log('Status code = 200!');
+		        console.log(result.content);		   
+		     }
+		}
+	});
+}
+
+
 
 
