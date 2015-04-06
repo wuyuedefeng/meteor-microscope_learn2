@@ -12,7 +12,6 @@ sacha:spin
 ian:accounts-ui-bootstrap-3
 accounts-password
 wuyuedefeng:errors
-cfs:http-methods
 jparker:crypto-sha1
 http
 ejson

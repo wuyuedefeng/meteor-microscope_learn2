@@ -3,28 +3,44 @@ wxAccessToken = '';
 wxAppID = 'wx5316ec281e408483';
 wxSecret = '66a23511bf2c7cae3d2917a2d1ea3962';
 //服务器配置 安全模式 服务器验证
-Router.route('/wx', function(){
+Router.route('/wx', {where: 'server', layoutTemplate: ''})
+  .get(function () {
+	    this.response.statusCode = 200;
+		this.response.setHeader("Content-Type", "application/json");
 
-	this.response.statusCode = 200;
-	this.response.setHeader("Content-Type", "application/json");
+		var timestamp = this.params.query.timestamp;
+		// console.log('timestamp' + timestamp);
+		var nonce = this.params.query.nonce;
+		// console.log('nonce' + nonce);
+		var joinStr = [wxToken,timestamp, nonce].sort().join('');
+		// console.log('joinStr' + joinStr);
+		var verifyStr = CryptoJS.SHA1(joinStr).toString();
+		// console.log('verifyStr' + verifyStr);
+		// console.log('signature' + this.params.query.signature);
 
-	var timestamp = this.params.query.timestamp;
-	// console.log('timestamp' + timestamp);
-	var nonce = this.params.query.nonce;
-	// console.log('nonce' + nonce);
-	var joinStr = [wxToken,timestamp, nonce].sort().join('');
-	// console.log('joinStr' + joinStr);
-	var verifyStr = CryptoJS.SHA1(joinStr).toString();
-	// console.log('verifyStr' + verifyStr);
-	// console.log('signature' + this.params.query.signature);
+		if (this.params.query.signature === verifyStr) {
 
-	if (this.params.query.signature === verifyStr) {
-		this.response.end(this.params.query.echostr);
-	}else{
-		this.response.end('false');
-	}
+			console.log('微信get数据================== ');
+			console.log(this.params.query);
 
-}, {where: 'server'});
+			this.response.end(this.params.query.echostr);
+		}else{
+			this.response.end('false');
+		}
+  })
+  .post(function (req, res, next) {
+  		this.response.statusCode = 200;
+		this.response.setHeader("Content-Type", "application/json");
+
+  		console.log('微信post数据==============');
+  		console.log('req====================');
+  		console.log(req);
+  		console.log('res=========================');
+  		console.log(res);
+  		console.log('netx =======================');
+  		console.log(next);
+  		return '';
+  });
 
 //获取微信access_token  需要修改appid和secret的参数
 Meteor.startup(function () {
