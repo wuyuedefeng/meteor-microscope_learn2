@@ -89,7 +89,10 @@ Router.route('/wx', {where: 'server', layoutTemplate: ''})
                     emptyErr.name = 'Wechat';
                     return next(emptyErr);
                 }
-                console.log(xml);
+                var json = xml2js.parseStringSync(xml);
+                console.log('json=====');
+                console.log(json);
+
             });
 	  		this.response.end('');
 
