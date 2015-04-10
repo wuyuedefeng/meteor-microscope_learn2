@@ -15,3 +15,5 @@ wuyuedefeng:errors
 jparker:crypto-sha1
 http
 ejson
+cfs:http-methods
+peerlibrary:xml2js

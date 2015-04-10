@@ -3,6 +3,35 @@ wxAccessToken = '';
 wxAppID = 'wx5316ec281e408483';
 wxSecret = '66a23511bf2c7cae3d2917a2d1ea3962';
 //服务器配置 安全模式 服务器验证
+// HTTP.methods({
+//     '/wx': {
+//       get: function(data) {
+//       	console.log('wx get data=====');
+//       	console.log(data);
+//       	console.log('this wx get=====');
+//       	console.log(data);
+//       },
+//       post:function(data){
+//       	console.log('wx post data=====');
+//       	console.log(data);
+//       	console.log('this wx post=====');
+//       	console.log(this);
+//       }
+
+//     }
+//   });
+
+var load = function (stream, callback) {
+    var buffers = [];
+    stream.on('data', function (trunk) {
+        buffers.push(trunk);
+    });
+    stream.on('end', function () {
+        callback(null, Buffer.concat(buffers));
+    });
+    stream.once('error', callback);
+};
+
 Router.route('/wx', {where: 'server', layoutTemplate: ''})
   .get(function () {
 	    this.response.statusCode = 200;
@@ -30,17 +59,48 @@ Router.route('/wx', {where: 'server', layoutTemplate: ''})
   })
   .post(function (req, res, next) {
   		this.response.statusCode = 200;
-		this.response.setHeader("Content-Type", "application/json");
+		this.response.setHeader("Content-Type", "application/xml");
 
-  		console.log('微信post数据==============');
-  		console.log('req====================');
-  		console.log(req);
-  		console.log('res=========================');
-  		console.log(res);
-  		console.log('netx =======================');
-  		console.log(next);
-  		return '';
+		var timestamp = req.query.timestamp;
+		// console.log('timestamp' + timestamp);
+		var nonce = req.query.nonce;
+		// console.log('nonce' + nonce);
+		var joinStr = [wxToken,timestamp, nonce].sort().join('');
+		// console.log('joinStr' + joinStr);
+		var verifyStr = CryptoJS.SHA1(joinStr).toString();
+		// console.log('verifyStr' + verifyStr);
+		// console.log('signature' + this.params.query.signature);
+        console.log('post数据来了=======');
+        console.log('req.query:' + req.query);
+		if (req.query.signature === verifyStr) {
+
+            console.log('验证通过=======');
+
+            load(req, function (err, buf) {
+                if (err) {
+                    console.log('error');
+                    return next(err);
+                }
+                var xml = buf.toString('utf-8');
+                console.log('xml laile ==========');
+                console.log(xml);
+                if (!xml) {
+                    var emptyErr = new Error('body is empty');
+                    emptyErr.name = 'Wechat';
+                    return next(emptyErr);
+                }
+                console.log(xml);
+            });
+	  		this.response.end('');
+
+
+		}else{
+			this.response.end('false');
+		}
+
+
   });
+
 
 //获取微信access_token  需要修改appid和secret的参数
 Meteor.startup(function () {
@@ -91,7 +151,7 @@ function get_wx_ip_list(){
 		    console.log('获取微信服务器ip列表 SUCCES');
 		    if (result.statusCode === 200) {
 		        console.log('Status code = 200!');
-		        console.log(result.content);		   
+		        console.log(result.content);
 		     }
 		}
 	});
@@ -113,11 +173,11 @@ function create_group(name){
             else{
             	if (result.statusCode === 200) {
 		        	console.log('create group SUCCES!');
-            		console.log(result.content);		   
+            		console.log(result.content);
 		     	}
             }
           });
-	
+
 }
 //查询微信所有分组
 function get_wx_group_list(){
@@ -130,7 +190,7 @@ function get_wx_group_list(){
 		    console.log('查询微信所有分组 SUCCES');
 		    if (result.statusCode === 200) {
 		        console.log('Status code = 200!');
-		        console.log(result.content);		   
+		        console.log(result.content);
 		     }
 		}
 	});
@@ -153,7 +213,7 @@ function get_wx_group_with_openID(openID){
             else{
             	if (result.statusCode === 200) {
 		        	console.log('通过用户的OpenID查询其所在的GroupID SUCCES!');
-            		console.log(result.content);		   
+            		console.log(result.content);
 		     	}
             }
           });
@@ -176,7 +236,7 @@ function modify_wx_group_name(group_id, modify_name){
             else{
             	if (result.statusCode === 200) {
 		        	console.log('微信修改分组名称 SUCCES!');
-            		console.log(result.content);		   
+            		console.log(result.content);
 		     	}
             }
           });
@@ -199,7 +259,7 @@ function remove_openID_to_group(openID, to_groupid){
             else{
             	if (result.statusCode === 200) {
 		        	console.log('移动用户分组 SUCCES!');
-            		console.log(result.content);		   
+            		console.log(result.content);
 		     	}
             }
           });
@@ -222,7 +282,7 @@ function remove_openIDList_to_group(openid_list, to_groupid){
             else{
             	if (result.statusCode === 200) {
 		        	console.log('批量移动用户分组 SUCCES!');
-            		console.log(result.content);		   
+            		console.log(result.content);
 		     	}
             }
           });
@@ -235,7 +295,7 @@ function create_menu(){
           {
           	data: {
 				"button":[
-					{	
+					{
 					  "name":"美文特辑",
 					  'sub_button':[
 					  {
@@ -253,7 +313,7 @@ function create_menu(){
 					{
 					   "name":"逗比特辑",
 					   "sub_button":[
-					   {	
+					   {
 					       "type":"view",
 					       "name":"呵呵~咯咯~",
 					       "url":"http://www.baidu.com"
@@ -274,7 +334,7 @@ function create_menu(){
             else{
             	if (result.statusCode === 200) {
 		        	console.log('创建菜单目录 SUCCES!');
-            		console.log(result.content);		   
+            		console.log(result.content);
 		     	}
             }
           });
@@ -291,7 +351,7 @@ function get_menu(){
 		    console.log('查询菜单 SUCCES');
 		    if (result.statusCode === 200) {
 		        console.log('Status code = 200!');
-		        console.log(result.content);		   
+		        console.log(result.content);
 		     }
 		}
 	});
