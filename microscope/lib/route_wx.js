@@ -120,23 +120,23 @@ Meteor.startup(function () {
 		        wxAccessToken = EJSON.parse(result.content).access_token;
 		        // console.log(wxAccessToken);
 		        //获取微信ip_list
-		        get_wx_ip_list();
-
-		        create_group('sensensen');
-
-		        get_wx_group_list();
-
-		        get_wx_group_with_openID('op82Ot-3nzBI2u1jxwNWJ_ohSr0g');
-
-		        modify_wx_group_name('118','未分组modify');
-
-		        remove_openID_to_group('op82Ot-3nzBI2u1jxwNWJ_ohSr0g','118');
-
-		        remove_openIDList_to_group(['op82Ot-3nzBI2u1jxwNWJ_ohSr0g'],'2');
-
-		        create_menu();
-
-		        get_menu();
+		        //get_wx_ip_list();
+                //
+		        //create_group('sensensen');
+                //
+		        //get_wx_group_list();
+                //
+		        //get_wx_group_with_openID('op82Ot-3nzBI2u1jxwNWJ_ohSr0g');
+                //
+		        //modify_wx_group_name('118','未分组modify');
+                //
+		        //remove_openID_to_group('op82Ot-3nzBI2u1jxwNWJ_ohSr0g','118');
+                //
+		        //remove_openIDList_to_group(['op82Ot-3nzBI2u1jxwNWJ_ohSr0g'],'2');
+                //
+		        //create_menu();
+                //
+		        //get_menu();
 
 		    }
 		}

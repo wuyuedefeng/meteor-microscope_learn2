@@ -45,12 +45,28 @@ BestPostsController = PostsListController.extend({
     }
 });
 Router.route('/', {
-    name: 'home',
+    name:'home',
+    waitOn: function(){
+        alert('=======');
+        alert(this.params.query.code);
+        if(this.params.query.code){
+            var url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + wxAppID + "&secret=" + wxSecret + "&code=" + this.params.query.code + "&grant_type=authorization_code"
+            alert(url);
+            var result = Meteor.http.get(url, {timeout:30000});
+            if(result.statusCode==200) {
+                var respJson = JSON.parse(result.content);
+                alert("response received.");
+                alert(respJson);
+            }
+        }
+    },
     controller: NewPostsController
 });
-Router.route('/new/:postsLimit?', {name: 'newPosts'});
-Router.route('/best/:postsLimit?', {name: 'bestPosts'});
+Router.route('/new/:postsLimit?', {
+    name: 'newPosts'
 
+});
+Router.route('/best/:postsLimit?', {name: 'bestPosts'});
 
 Router.route('/posts/:_id', {
     name: 'postPage',
