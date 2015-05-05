@@ -17,3 +17,4 @@ http
 ejson
 cfs:http-methods
 peerlibrary:xml2js
+nimble:restivus
