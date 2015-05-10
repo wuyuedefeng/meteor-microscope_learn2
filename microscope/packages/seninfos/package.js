@@ -1,6 +1,6 @@
 Package.describe({
   name: 'wuyuedefeng:seninfos',
-  version: '0.0.1',
+  version: '0.0.2',
   // Brief, one-line summary of the package.
   summary: '为应用显示应用程序信息(alert-error,alert-success,alert-warning)',
   // URL to the Git repository containing the source code for this package.
@@ -19,8 +19,8 @@ Package.onUse(function(api) {
         api.export('SenInfos');
 });
 
-//Package.onTest(function(api) {
-//  api.use(['tinytest', 'test-helpers'], 'client');
-//  api.use('seninfos', 'client');
-//  api.addFiles('sen_infos-tests.js', 'client');
-//});
+Package.onTest(function(api) {
+  api.use(['tinytest', 'test-helpers'], 'client');
+  api.use('wuyuedefeng:seninfos', 'client');
+  api.addFiles('sen_infos-tests.js', 'client');
+});

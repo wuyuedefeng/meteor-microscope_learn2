@@ -1,6 +1,7 @@
+
 #使用方法
 
-```
+```meteor create --package my:package
 meteor add itrydo:errors
 ```
 
