@@ -2,8 +2,7 @@
 #使用方法
 
 ```meteor
-meteor create --package my:package
-meteor add itrydo:errors
+meteor add wuyuedefeng:seninfos
 ```
 
 ```meteor

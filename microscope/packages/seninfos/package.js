@@ -1,6 +1,6 @@
 Package.describe({
   name: 'wuyuedefeng:seninfos',
-  version: '0.0.1',
+  version: '0.0.4',
   // Brief, one-line summary of the package.
   summary: '为应用显示应用程序信息(alert-error,alert-success,alert-warning)',
   // URL to the Git repository containing the source code for this package.
