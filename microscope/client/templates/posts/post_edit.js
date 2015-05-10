@@ -28,7 +28,7 @@ Template.postEdit.events({
         Posts.update(currentPostId, {$set: postProperties}, function(error) {
             if (error) {
                 // 向用户显示错误信息
-                ItrydoErrors.throw(error.reason);
+                SenInfos.showError(error.reason);
             } else {
                 Router.go('postPage', {_id: currentPostId});
             }
@@ -41,7 +41,7 @@ Template.postEdit.events({
         if (confirm("Delete this post?")) {
             var currentPostId = this._id;
             Posts.remove(currentPostId);
-            Router.go('home');
+            Router.go('postsList');
         }
     }
 });

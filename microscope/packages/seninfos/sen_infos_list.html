@@ -1,0 +1,14 @@
+<template name="senInfos">
+    <div class="seninfo-errors">
+        {{#each errors}}
+            {{> senInfo}}
+        {{/each}}
+    </div>
+</template>
+
+<template name="senInfo">
+    <div class={{senInfoAlertClass}} role="alert">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{message}}
+    </div>
+</template>
